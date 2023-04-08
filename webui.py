@@ -225,7 +225,7 @@ def api_only():
     modules.script_callbacks.app_started_callback(None, app)
 
     print(f"Startup time: {startup_timer.summary()}.")
-    api.launch(server_name="0.0.0.0" if cmd_opts.listen else "127.0.0.1", port=cmd_opts.port if cmd_opts.port else 7861)
+    api.launch(server_name="0.0.0.0" if cmd_opts.listen else "127.0.0.1", port=cmd_opts.port if cmd_opts.port else 80)
 
 
 def webui():
@@ -253,6 +253,10 @@ def webui():
             with open(cmd_opts.gradio_auth_path, 'r', encoding="utf8") as file:
                 for line in file.readlines():
                     gradio_auth_creds += [x.strip() for x in line.split(',') if x.strip()]
+
+        print("--------------")
+        print(gradio_auth_creds)
+        print("--------------")
 
         app, local_url, share_url = shared.demo.launch(
             share=cmd_opts.share,
