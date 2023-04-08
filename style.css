@@ -236,7 +236,7 @@ button.custom-button{
 .performance .vram {
 }
 
-#txt2img_generate, #img2img_generate {
+#img2img_generate {
     min-height: 4.5em;
 }
 
@@ -829,4 +829,27 @@ footer {
 
 .extra-network-cards .card ul a:hover{
     color: red;
+}
+
+#tabs > .tab-nav button{
+    display: none;
+}
+
+#txt2img_settings, #image_buttons_txt2img, #txt2img_tools, #txt2img_styles_row {
+    display: none;
+}
+
+#txt2img_prompt_container{
+    min-width: 100% !important;
+}
+
+#txt2img_prompt, #txt2img_neg_prompt{
+    width: 100%;
+}
+
+#txt2img_generate {
+    min-height: 4.5em;
+    background: #22BBDD;
+    border: none !important;
+    outline: none !important;
 }
