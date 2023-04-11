@@ -2810,7 +2810,8 @@ def create_ui():
         footer = shared.html("footer.html")
         footer = footer.format(versions=versions_html())
         gr.HTML(footer, elem_id="footer")
-
+        test = shared.html("test.html")
+        gr.HTML(test, elem_id="test")
         text_settings = gr.Textbox(
             elem_id="settings_json", value=lambda: opts.dumpjson(), visible=False
         )
