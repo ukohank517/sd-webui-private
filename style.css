@@ -835,7 +835,7 @@ footer {
     display: none;
 }
 
-#txt2img_settings, #image_buttons_txt2img, #txt2img_tools, #txt2img_styles_row {
+#txt2img_settings, #image_buttons_txt2img, #txt2img_tools, #txt2img_styles_row, #refresh_sd_model_checkpoint, #txt2img_neg_prompt {
     display: none;
 }
 
