@@ -128,7 +128,8 @@ def add_style(name: str, prompt: str, negative_prompt: str):
     shared.prompt_styles.save_styles(shared.styles_filename)
 
     return [
-        gr.Dropdown.update(visible=True, choices=list(shared.prompt_styles.styles))
+        gr.Dropdown.update(visible=True, choices=list(
+            shared.prompt_styles.styles))
         for _ in range(2)
     ]
 
@@ -216,7 +217,8 @@ def create_seed_inputs(target_interface):
         random_seed = ToolButton(
             random_symbol, elem_id=target_interface + "_random_seed"
         )
-        reuse_seed = ToolButton(reuse_symbol, elem_id=target_interface + "_reuse_seed")
+        reuse_seed = ToolButton(
+            reuse_symbol, elem_id=target_interface + "_reuse_seed")
 
         seed_checkbox = gr.Checkbox(
             label="Extra", elem_id=target_interface + "_subseed_show", value=False
@@ -267,7 +269,8 @@ def create_seed_inputs(target_interface):
             elem_id=target_interface + "_seed_resize_from_h",
         )
 
-    random_seed.click(fn=lambda: -1, show_progress=False, inputs=[], outputs=[seed])
+    random_seed.click(fn=lambda: -1, show_progress=False,
+                      inputs=[], outputs=[seed])
     random_subseed.click(
         fn=lambda: -1, show_progress=False, inputs=[], outputs=[subseed]
     )
@@ -324,7 +327,8 @@ def connect_reuse_seed(
 
             if is_subseed and gen_info.get("subseed_strength", 0) > 0:
                 all_subseeds = gen_info.get("all_subseeds", [-1])
-                res = all_subseeds[index if 0 <= index < len(all_subseeds) else 0]
+                res = all_subseeds[index if 0 <=
+                                   index < len(all_subseeds) else 0]
             else:
                 all_seeds = gen_info.get("all_seeds", [-1])
                 res = all_seeds[index if 0 <= index < len(all_seeds) else 0]
@@ -349,7 +353,8 @@ def update_token_counter(text, steps):
     try:
         text, _ = extra_networks.parse_prompt(text)
 
-        _, prompt_flat_list, _ = prompt_parser.get_multicond_prompt_list([text])
+        _, prompt_flat_list, _ = prompt_parser.get_multicond_prompt_list([
+                                                                         text])
         prompt_schedules = prompt_parser.get_learned_conditioning_prompt_schedules(
             prompt_flat_list, steps
         )
@@ -1180,7 +1185,8 @@ def create_ui():
                             image_mode="RGBA",
                         ).style(height=480)
                         inpaint_color_sketch_orig = gr.State(None)
-                        add_copy_image_controls("inpaint_sketch", inpaint_color_sketch)
+                        add_copy_image_controls(
+                            "inpaint_sketch", inpaint_color_sketch)
 
                         def update_orig(image, state):
                             if image is not None:
@@ -1188,7 +1194,8 @@ def create_ui():
                                     state is not None and state.size == image.size
                                 )
                                 has_exact_match = np.any(
-                                    np.all(np.array(image) == np.array(state), axis=-1)
+                                    np.all(np.array(image) ==
+                                           np.array(state), axis=-1)
                                 )
                                 edited = same_size and has_exact_match
                                 return image if not edited or state is None else state
@@ -1442,7 +1449,8 @@ def create_ui():
                             with FormRow():
                                 inpainting_mask_invert = gr.Radio(
                                     label="Mask mode",
-                                    choices=["Inpaint masked", "Inpaint not masked"],
+                                    choices=["Inpaint masked",
+                                             "Inpaint not masked"],
                                     value="Inpaint masked",
                                     type="index",
                                     elem_id="img2img_mask_mode",
@@ -1466,7 +1474,8 @@ def create_ui():
                                 with gr.Column():
                                     inpaint_full_res = gr.Radio(
                                         label="Inpaint area",
-                                        choices=["Whole picture", "Only masked"],
+                                        choices=["Whole picture",
+                                                 "Only masked"],
                                         type="index",
                                         value="Whole picture",
                                         elem_id="img2img_inpaint_full_res",
@@ -1612,7 +1621,8 @@ def create_ui():
             )
 
             img2img_deepbooru.click(
-                fn=lambda *args: process_interrogate(interrogate_deepbooru, *args),
+                fn=lambda *args: process_interrogate(
+                    interrogate_deepbooru, *args),
                 **interrogate_args,
             )
 
@@ -1659,7 +1669,8 @@ def create_ui():
                 outputs=[negative_token_counter],
             )
 
-            ui_extra_networks.setup_ui(extra_networks_ui_img2img, img2img_gallery)
+            ui_extra_networks.setup_ui(
+                extra_networks_ui_img2img, img2img_gallery)
 
             img2img_paste_fields = [
                 (img2img_prompt, "Prompt"),
@@ -1771,7 +1782,8 @@ def create_ui():
                     create_refresh_button(
                         primary_model_name,
                         modules.sd_models.list_models,
-                        lambda: {"choices": modules.sd_models.checkpoint_tiles()},
+                        lambda: {
+                            "choices": modules.sd_models.checkpoint_tiles()},
                         "refresh_checkpoint_A",
                     )
 
@@ -1783,7 +1795,8 @@ def create_ui():
                     create_refresh_button(
                         secondary_model_name,
                         modules.sd_models.list_models,
-                        lambda: {"choices": modules.sd_models.checkpoint_tiles()},
+                        lambda: {
+                            "choices": modules.sd_models.checkpoint_tiles()},
                         "refresh_checkpoint_B",
                     )
 
@@ -1795,7 +1808,8 @@ def create_ui():
                     create_refresh_button(
                         tertiary_model_name,
                         modules.sd_models.list_models,
-                        lambda: {"choices": modules.sd_models.checkpoint_tiles()},
+                        lambda: {
+                            "choices": modules.sd_models.checkpoint_tiles()},
                         "refresh_checkpoint_C",
                     )
 
@@ -1811,7 +1825,8 @@ def create_ui():
                     elem_id="modelmerger_interp_amount",
                 )
                 interp_method = gr.Radio(
-                    choices=["No interpolation", "Weighted sum", "Add difference"],
+                    choices=["No interpolation",
+                             "Weighted sum", "Add difference"],
                     value="Weighted sum",
                     label="Interpolation Method",
                     elem_id="modelmerger_interp_method",
@@ -1856,7 +1871,8 @@ def create_ui():
                             create_refresh_button(
                                 bake_in_vae,
                                 sd_vae.refresh_vae_list,
-                                lambda: {"choices": ["None"] + list(sd_vae.vae_dict)},
+                                lambda: {"choices": [
+                                    "None"] + list(sd_vae.vae_dict)},
                                 "modelmerger_refresh_bake_in_vae",
                             )
 
@@ -2280,7 +2296,8 @@ def create_ui():
                         create_refresh_button(
                             template_file,
                             textual_inversion.list_textual_inversion_templates,
-                            lambda: {"choices": get_textual_inversion_template_names()},
+                            lambda: {
+                                "choices": get_textual_inversion_template_names()},
                             "refrsh_train_template_file",
                         )
 
@@ -2379,12 +2396,14 @@ def create_ui():
                             elem_id="train_train_hypernetwork",
                         )
 
-                params = script_callbacks.UiTrainTabParams(txt2img_preview_params)
+                params = script_callbacks.UiTrainTabParams(
+                    txt2img_preview_params)
 
                 script_callbacks.ui_train_tabs_callback(params)
 
             with gr.Column(elem_id="ti_gallery_container"):
-                ti_output = gr.Text(elem_id="ti_output", value="", show_label=False)
+                ti_output = gr.Text(elem_id="ti_output",
+                                    value="", show_label=False)
                 ti_gallery = gr.Gallery(
                     label="Output", show_label=False, elem_id="ti_gallery"
                 ).style(grid=4)
@@ -2428,7 +2447,8 @@ def create_ui():
 
         run_preprocess.click(
             fn=wrap_gradio_gpu_call(
-                modules.textual_inversion.ui.preprocess, extra_outputs=[gr.update()]
+                modules.textual_inversion.ui.preprocess, extra_outputs=[
+                    gr.update()]
             ),
             _js="start_training_textual_inversion",
             inputs=[
@@ -2502,7 +2522,8 @@ def create_ui():
 
         train_hypernetwork.click(
             fn=wrap_gradio_gpu_call(
-                modules.hypernetworks.ui.train_hypernetwork, extra_outputs=[gr.update()]
+                modules.hypernetworks.ui.train_hypernetwork, extra_outputs=[
+                    gr.update()]
             ),
             _js="start_training_textual_inversion",
             inputs=[
@@ -2590,7 +2611,8 @@ def create_ui():
                         res, info.refresh, info.component_args, "refresh_" + key
                     )
         else:
-            res = comp(label=info.label, value=fun(), elem_id=elem_id, **(args or {}))
+            res = comp(label=info.label, value=fun(),
+                       elem_id=elem_id, **(args or {}))
 
         return res
 
@@ -2654,7 +2676,8 @@ def create_ui():
 
         result = gr.HTML(elem_id="settings_result")
 
-        quicksettings_names = [x.strip() for x in opts.quicksettings.split(",")]
+        quicksettings_names = [x.strip()
+                               for x in opts.quicksettings.split(",")]
         quicksettings_names = {
             x: i for i, x in enumerate(quicksettings_names) if x != "quicksettings"
         }
@@ -2726,7 +2749,8 @@ def create_ui():
             with gr.TabItem("Licenses"):
                 gr.HTML(shared.html("licenses.html"), elem_id="licenses")
 
-            gr.Button(value="Show all pages", elem_id="settings_show_all_pages")
+            gr.Button(value="Show all pages",
+                      elem_id="settings_show_all_pages")
 
         def unload_sd_weights():
             modules.sd_models.unload_model_weights()
@@ -2785,7 +2809,8 @@ def create_ui():
     with gr.Blocks(analytics_enabled=False, title="TestSD") as demo:
         with gr.Row(elem_id="quicksettings", variant="compact"):
             for i, k, item in sorted(
-                quicksettings_list, key=lambda x: quicksettings_names.get(x[1], x[0])
+                quicksettings_list, key=lambda x: quicksettings_names.get(
+                    x[1], x[0])
             ):
                 component = create_setting_component(k, is_quicksettings=True)
                 component_dict[k] = component
@@ -2844,13 +2869,15 @@ def create_ui():
             "Change checkpoint", elem_id="change_checkpoint", visible=False
         )
         button_set_checkpoint.click(
-            fn=lambda value, _: run_settings_single(value, key="sd_model_checkpoint"),
+            fn=lambda value, _: run_settings_single(
+                value, key="sd_model_checkpoint"),
             _js="function(v){ var res = desiredCheckpointName; desiredCheckpointName = ''; return [res || v, null]; }",
             inputs=[component_dict["sd_model_checkpoint"], dummy_component],
             outputs=[component_dict["sd_model_checkpoint"], text_settings],
         )
 
-        component_keys = [k for k in opts.data_labels.keys() if k in component_dict]
+        component_keys = [k for k in opts.data_labels.keys()
+                          if k in component_dict]
 
         def get_settings_values():
             return [get_value_for_setting(key) for key in component_keys]
@@ -2868,20 +2895,24 @@ def create_ui():
             except Exception as e:
                 print("Error loading/saving model file:", file=sys.stderr)
                 print(traceback.format_exc(), file=sys.stderr)
-                modules.sd_models.list_models()  # to remove the potentially missing models from the list
+                # to remove the potentially missing models from the list
+                modules.sd_models.list_models()
                 return [
                     *[
-                        gr.Dropdown.update(choices=modules.sd_models.checkpoint_tiles())
+                        gr.Dropdown.update(
+                            choices=modules.sd_models.checkpoint_tiles())
                         for _ in range(4)
                     ],
                     f"Error merging checkpoints: {e}",
                 ]
             return results
 
-        modelmerger_merge.click(fn=lambda: "", inputs=[], outputs=[modelmerger_result])
+        modelmerger_merge.click(fn=lambda: "", inputs=[],
+                                outputs=[modelmerger_result])
         modelmerger_merge.click(
             fn=wrap_gradio_gpu_call(
-                modelmerger, extra_outputs=lambda: [gr.update() for _ in range(4)]
+                modelmerger, extra_outputs=lambda: [
+                    gr.update() for _ in range(4)]
             ),
             _js="modelmerger",
             inputs=[
@@ -2977,7 +3008,8 @@ def create_ui():
                 else:
                     return val in x.choices
 
-            apply_field(x, "value", check_dropdown, getattr(x, "init_field", None))
+            apply_field(x, "value", check_dropdown,
+                        getattr(x, "init_field", None))
 
     visit(txt2img_interface, loadsave, "txt2img")
     visit(img2img_interface, loadsave, "img2img")
@@ -2986,7 +3018,8 @@ def create_ui():
     visit(train_interface, loadsave, "train")
 
     if not error_loading and (
-        not os.path.exists(ui_config_file) or settings_count != len(ui_settings)
+        not os.path.exists(
+            ui_config_file) or settings_count != len(ui_settings)
     ):
         with open(ui_config_file, "w", encoding="utf8") as file:
             json.dump(ui_settings, file, indent=4)

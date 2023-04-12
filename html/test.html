@@ -3,27 +3,29 @@
   <div class="aigc-container">
     <div class="left-box">
       <div class="img-container">
-        <img src="./file=html/card-no-preview.png" alt="" />
+        <img id="showImage" src="./file=html/card-no-preview.png" alt="" />
       </div>
       <div class="progress-container">
         <div class="progress-line">
           <div class="bg-line">
             <div class="active-line"></div>
-            <div class="active-line-number">30%</div>
-            <div class="active-line-number-point"></div>
+            <div class="active-line-number">
+              <input readonly />
+            </div>
+            <!-- <div class="active-line-number-point"></div> -->
           </div>
-          <p>Generating please wait.</p>
+          <p class="wate-text">Generating please wait.</p>
         </div>
-        <div class="cancel-btn">
+        <div class="cancel-btn" id="cancel-btn">
           Cancel
         </div>
       </div>
       <div class="generate-container">
         <div class="prompt">
-          <textarea rows="8">aaa</textarea>
+          <textarea id="prompt-text" rows="8"></textarea>
         </div>
         <div>
-          <div class="generate-btn">
+          <div class="generate-btn" id="generate-btn">
             Generate
           </div>
         </div>
