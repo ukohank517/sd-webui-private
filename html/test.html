@@ -1,150 +1,155 @@
 <div class="aigc-wrap">
-  <p class="title">DMGang 人工智能与人类智能协作平台 <span class="beta-label">Beta🔥</span> </p>
-  <div class="aigc-container">
-    <div class="left-box">
-      <div class="img-container">
-        <img id="showImage" src="./file=html/card-no-preview.png" alt="" />
-      </div>
-      <div class="progress-container">
-        <div class="progress-line">
-          <div class="bg-line">
-            <div class="active-line"></div>
-            <div class="active-line-number">
-              <input readonly />
+  <span class="user-ip">ip: <span id="user-ip"></span></span>
+  <div class="box-100vh">
+    <p class="title">Promptcoin 人工智能与人类智能协作平台 <span class="beta-label">Beta🔥</span> </p>
+    <div class="aigc-container">
+      <div class="left-box">
+        <div class="wrap-img-container">
+          <div class="img-container">
+            <img id="showImage" src="./file=html/card-no-preview.png" alt="" />
+          </div>
+          <div class="progress-container">
+            <div class="progress-line">
+              <div class="bg-line">
+                <div class="active-line"></div>
+                <div class="active-line-number">
+                  <input readonly />
+                </div>
+                <!-- <div class="active-line-number-point"></div> -->
+              </div>
+              <p class="wate-text">Generating please wait.</p>
             </div>
-            <!-- <div class="active-line-number-point"></div> -->
-          </div>
-          <p class="wate-text">Generating please wait.</p>
-        </div>
-        <div class="cancel-btn" id="cancel-btn">
-          Cancel
-        </div>
-      </div>
-      <div class="generate-container">
-        <div class="prompt">
-          <textarea id="prompt-text" rows="8"></textarea>
-        </div>
-        <div>
-          <div class="generate-btn" id="generate-btn">
-            Generate
+            <div class="cancel-btn" id="cancel-btn">
+              Cancel
+            </div>
           </div>
         </div>
-      </div>
-      <div class="model-container">
-        <div class="model-item active-model-item">
-          <div class="img-box"><img src="./file=html/img.png" alt="" /></div>
-          <div class="info-box">
-            <p class="info-box-name">
-              Cartoon
-              <span class="spot"></span>
-            </p>
-            <p class="info-box-user">model 1</p>
-            <p class="info-box-user"> <span class="spot"></span> 893 User</p>
+        <div class="generate-container">
+          <div class="prompt">
+            <textarea id="prompt-text" rows="4"></textarea>
+          </div>
+          <div>
+            <div class="generate-btn" id="generate-btn">
+              Generate
+            </div>
           </div>
         </div>
-        <div class="model-item">
-          <div class="img-box"><img src="./file=html/img.png" alt="" /></div>
-          <div class="info-box">
-            <p class="info-box-name">
-              Cartoon
-              <span class="spot"></span>
-            </p>
-            <p class="info-box-user">model 1</p>
-            <p class="info-box-user"> <span class="spot"></span> 893 User</p>
+        <div class="model-container">
+          <div class="model-item active-model-item">
+            <div class="img-box"><img src="./file=html/img.png" alt="" /></div>
+            <div class="info-box">
+              <p class="info-box-name">
+                Cartoon
+                <span class="spot"></span>
+              </p>
+              <p class="info-box-user">model 1</p>
+              <p class="info-box-user"> <span class="spot"></span> 893 User</p>
+            </div>
           </div>
-        </div>
-        <div class="model-item">
-          <div class="img-box"><img src="./file=html/img.png" alt="" /></div>
-          <div class="info-box">
-            <p class="info-box-name">
-              Cartoon
-              <span class="spot"></span>
-            </p>
-            <p class="info-box-user">model 1</p>
-            <p class="info-box-user"> <span class="spot"></span> 893 User</p>
+          <div class="model-item">
+            <div class="img-box"><img src="./file=html/img.png" alt="" /></div>
+            <div class="info-box">
+              <p class="info-box-name">
+                Cartoon
+                <span class="spot"></span>
+              </p>
+              <p class="info-box-user">model 1</p>
+              <p class="info-box-user"> <span class="spot"></span> 893 User</p>
+            </div>
+          </div>
+          <div class="model-item">
+            <div class="img-box"><img src="./file=html/img.png" alt="" /></div>
+            <div class="info-box">
+              <p class="info-box-name">
+                Cartoon
+                <span class="spot"></span>
+              </p>
+              <p class="info-box-user">model 1</p>
+              <p class="info-box-user"> <span class="spot"></span> 893 User</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="right-box">
-      <div class="chat-room-header">
-        <h2>Chat room</h2>
-        <div class="user-in">
-          <img src="./file=html/img.png" alt="" />
-          <img src="./file=html/img.png" alt="" />
-          <img src="./file=html/img.png" alt="" />
-          <img src="./file=html/img.png" alt="" />
-        </div>
-      </div>
-      <div class="chat-room-history">
-        <div class="message-item">
-          <div class="avatar-box"><img src="./file=html/img.png" alt="" /></div>
-          <div class="message-box">
-            <p>
-              <span class="name">用户1</span>
-              <span class="time">1m</span>
-            </p>
-            <p class="message-text">
-              <lora:koreanDollLikeness_v10:0.3>,<lora:taiwanDollLikeness_v10:0.2>(8k, RAW photo, best quality,
-                  masterpiece:1.2), (realistic, photo-realistic:1.37), ultra-detailed, 1 girl,cute, solo,beautiful
-                  detailed sky,detailed cafe,night,sitting,dating,(nose blush),(smile:1.1),(closed mouth) medium
-                  breasts,beautiful detailed eyes,(collared shirt:1.1), bowtie,pleated skirt,(short hair:1.2),floating
-                  hair
-            </p>
+      <div class="right-box">
+        <div class="chat-room-header">
+          <h2>Chat room</h2>
+          <div class="user-in">
+            <img src="./file=html/img.png" alt="" />
+            <img src="./file=html/img.png" alt="" />
+            <img src="./file=html/img.png" alt="" />
+            <img src="./file=html/img.png" alt="" />
           </div>
         </div>
-        <div class="message-item">
-          <div class="avatar-box"><img src="./file=html/img.png" alt="" /></div>
-          <div class="message-box">
-            <p>
-              <span class="name">用户1</span>
-              <span class="time">1m</span>
-            </p>
-            <p class="message-text">
-              <lora:koreanDollLikeness_v10:0.3>,<lora:taiwanDollLikeness_v10:0.2>(8k, RAW photo, best quality,
-                  masterpiece:1.2), (realistic, photo-realistic:1.37), ultra-detailed, 1 girl,cute, solo,beautiful
-                  detailed sky,detailed cafe,night,sitting,dating,(nose blush),(smile:1.1),(closed mouth) medium
-                  breasts,beautiful detailed eyes,(collared shirt:1.1), bowtie,pleated skirt,(short hair:1.2),floating
-                  hair
-            </p>
+        <div class="chat-room-history">
+          <div class="message-item">
+            <div class="avatar-box"><img src="./file=html/img.png" alt="" /></div>
+            <div class="message-box">
+              <p>
+                <span class="name">用户1</span>
+                <span class="time">1m</span>
+              </p>
+              <p class="message-text">
+                (8k, RAW photo, best quality,
+                masterpiece:1.2), (realistic, photo-realistic:1.37), ultra-detailed, 1 girl,cute, solo,beautiful
+                detailed sky,detailed cafe,night,sitting,dating,(nose blush),(smile:1.1),(closed mouth) medium
+                breasts,beautiful detailed eyes,(collared shirt:1.1), bowtie,pleated skirt,(short hair:1.2),floating
+                hair
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="message-item">
-          <div class="avatar-box"><img src="./file=html/img.png" alt="" /></div>
-          <div class="message-box">
-            <p>
-              <span class="name">用户1</span>
-              <span class="time">1m</span>
-            </p>
-            <p class="message-text">
-              <lora:koreanDollLikeness_v10:0.3>,<lora:taiwanDollLikeness_v10:0.2>(8k, RAW photo, best quality,
-                  masterpiece:1.2), (realistic, photo-realistic:1.37), ultra-detailed, 1 girl,cute, solo,beautiful
-                  detailed sky,detailed cafe,night,sitting,dating,(nose blush),(smile:1.1),(closed mouth) medium
-                  breasts,beautiful detailed eyes,(collared shirt:1.1), bowtie,pleated skirt,(short hair:1.2),floating
-                  hair
-            </p>
+          <div class="message-item">
+            <div class="avatar-box"><img src="./file=html/img.png" alt="" /></div>
+            <div class="message-box">
+              <p>
+                <span class="name">用户1</span>
+                <span class="time">1m</span>
+              </p>
+              <p class="message-text">
+                (8k, RAW photo, best quality,
+                masterpiece:1.2), (realistic, photo-realistic:1.37), ultra-detailed, 1 girl,cute, solo,beautiful
+                detailed sky,detailed cafe,night,sitting,dating,(nose blush),(smile:1.1),(closed mouth) medium
+                breasts,beautiful detailed eyes,(collared shirt:1.1), bowtie,pleated skirt,(short hair:1.2),floating
+                hair
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="message-item">
-          <div class="avatar-box"><img src="./file=html/img.png" alt="" /></div>
-          <div class="message-box">
-            <p>
-              <span class="name">用户1</span>
-              <span class="time">1m</span>
-            </p>
-            <p class="message-text">
-              <lora:koreanDollLikeness_v10:0.3>,<lora:taiwanDollLikeness_v10:0.2>(8k, RAW photo, best quality,
-                  masterpiece:1.2), (realistic, photo-realistic:1.37), ultra-detailed, 1 girl,cute, solo,beautiful
-                  detailed sky,detailed cafe,night,sitting,dating,(nose blush),(smile:1.1),(closed mouth) medium
-                  breasts,beautiful detailed eyes,(collared shirt:1.1), bowtie,pleated skirt,(short hair:1.2),floating
-                  hair
-            </p>
+          <div class="message-item">
+            <div class="avatar-box"><img src="./file=html/img.png" alt="" /></div>
+            <div class="message-box">
+              <p>
+                <span class="name">用户1</span>
+                <span class="time">1m</span>
+              </p>
+              <p class="message-text">
+                (8k, RAW photo, best quality,
+                masterpiece:1.2), (realistic, photo-realistic:1.37), ultra-detailed, 1 girl,cute, solo,beautiful
+                detailed sky,detailed cafe,night,sitting,dating,(nose blush),(smile:1.1),(closed mouth) medium
+                breasts,beautiful detailed eyes,(collared shirt:1.1), bowtie,pleated skirt,(short hair:1.2),floating
+                hair
+              </p>
+            </div>
+          </div>
+          <div class="message-item">
+            <div class="avatar-box"><img src="./file=html/img.png" alt="" /></div>
+            <div class="message-box">
+              <p>
+                <span class="name">用户1</span>
+                <span class="time">1m</span>
+              </p>
+              <p class="message-text">
+                (8k, RAW photo, best quality,
+                masterpiece:1.2), (realistic, photo-realistic:1.37), ultra-detailed, 1 girl,cute, solo,beautiful
+                detailed sky,detailed cafe,night,sitting,dating,(nose blush),(smile:1.1),(closed mouth) medium
+                breasts,beautiful detailed eyes,(collared shirt:1.1), bowtie,pleated skirt,(short hair:1.2),floating
+                hair
+              </p>
+            </div>
           </div>
         </div>
         <div class="send-message-box">
           <div class="send-message-header">
-            <img src="./file=html/img.png" alt="" />
-            <span>Send a message…</span>
+            <img src="./file=html/sendicon.svg" alt="" />
+            <span>Send a message</span>
           </div>
           <div class="send-message-text">
             <textarea rows="6"></textarea>
@@ -161,7 +166,7 @@
   <div class="wrap-info">
     <div class="left-box">
       <p class="tips">INTRODUCING ONIX </p>
-      <p class="title">DMGang 人工智能与人类智能协作平台 <span class="beta-label">Beta🔥</span></p>
+      <p class="title">Promptcoin 人工智能与人类智能协作平台 <span class="beta-label">Beta🔥</span></p>
 
       <p class="desc">Offering you and your community AI tools with social features, collaboratively creating
         personalized content,
@@ -172,3 +177,10 @@
     <div class="right-box"> <img src="./file=html/info.png" alt="" /></div>
   </div>
 </div>
+<script>
+  console.log('test');
+  const generateInfo = () => {
+    console.log('generateInfo');
+  }
+  generateInfo()
+</script>
