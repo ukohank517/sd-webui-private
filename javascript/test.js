@@ -20,7 +20,8 @@ const AvatarMap = {
 
 // 页面更新时控制其他数据的显示
 const BaseUrl = 'http://v118-27-14-73.9ob0.static.cnode.io'
-window.roomId = '9999'
+window.roomId = window.location.search.replaceAll('?room_id=', '') || ''
+console.log('roomId', window.roomId);
 window.lastImgSrc = ''
 window.chatHistoryLength = 0
 onUiUpdate(async function () {
@@ -282,6 +283,9 @@ const updateChatHistory = async () => {
   }))
   const data = await res.json()
   const { chat_history } = data
+  if (!chat_history.length) {
+    return
+  }
   if (window.chatHistoryLength === chat_history.length) {
     return
   }
