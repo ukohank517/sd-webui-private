@@ -1477,9 +1477,9 @@ footer {
     /* font-size: 20px; */
 }
 
-/* #setting_sd_model_checkpoint>label .wrap .wrap-inner .secondary-wrap {
-    visibility: hidden;
-} */
+#setting_sd_model_checkpoint>label .wrap .wrap-inner .secondary-wrap .dropdown-arrow {
+    fill: #fff
+}
 
 #setting_sd_model_checkpoint>label .wrap .options {
     background: #323232;
@@ -1493,7 +1493,7 @@ footer {
 }
 
 #setting_sd_model_checkpoint>label .wrap .options li:hover {
-    background: #323232;
+    background: #1d1d1d;
     color: #fff;
 }
 
@@ -1505,7 +1505,7 @@ footer {
     color: #fff;
 }
 
-#setting_sd_model_checkpoint>label .wrap .eta-bar {
+/* #setting_sd_model_checkpoint>label .wrap .eta-bar {
     background: #323232;
     color: #fff;
-}
+} */
