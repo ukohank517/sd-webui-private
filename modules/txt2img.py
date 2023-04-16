@@ -28,10 +28,10 @@ def txt2img(id_task: str, prompt: str, negative_prompt: str, prompt_styles, step
         sampler_name=sd_samplers.samplers[sampler_index].name,
         batch_size=batch_size,
         n_iter=n_iter,
-        steps=10, # TODO
+        steps=20, # TODO
         cfg_scale=cfg_scale,
-        width=256, # TODO
-        height=256, # TODO
+        width=500, # TODO
+        height=500, # TODO
         restore_faces=restore_faces,
         tiling=tiling,
         enable_hr=enable_hr,
