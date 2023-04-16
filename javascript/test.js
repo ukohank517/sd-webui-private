@@ -1,7 +1,26 @@
+const NameMap = {
+  0: '房主',
+  1: '用户1',
+  2: '用户2',
+  3: '用户3',
+  4: '用户4',
+  5: '用户5',
+}
+const AvatarMap = {
+  0: "./file=html/img.png",
+  1: "./file=html/img.png",
+  2: "./file=html/img.png",
+  3: "./file=html/img.png",
+  4: "./file=html/img.png",
+  5: "./file=html/img.png",
+}
+
+
 // 页面更新时控制其他数据的显示
 const BaseUrl = 'http://v118-27-14-73.9ob0.static.cnode.io'
 window.roomId = 'window.roomId'
 window.lastImgSrc = ''
+window.chatHistoryLength = 0
 onUiUpdate(async function () {
   try {
     const progress = gradioApp().querySelector('#txt2img_results > .progressDiv > .progress');
@@ -42,7 +61,6 @@ onUiLoaded(async function () {
   const promptText = gradioApp().querySelector('#prompt-text');
   const generateBtn = gradioApp().querySelector('#generate-btn');
   const sendBtn = gradioApp().querySelector('#send-message-button');
-  console.log('sendBtn', sendBtn);
   const cancelBtn = gradioApp().querySelector('#cancel-btn');
   const t2iGenerateBtn = gradioApp().querySelector('#txt2img_generate');
   const t2iSkipBtn = gradioApp().querySelector('#txt2img_skip');
@@ -57,11 +75,9 @@ onUiLoaded(async function () {
     return
   }
   sendBtn.addEventListener('click', async () => {
-    console.log('sendBtn');
     const sendMessageInput = gradioApp().querySelector('#send-message');
     const res = await sendMessage(sendMessageInput.value)
-    console.log('res', res);
-    getChatHistory()
+    updateChatHistory()
   })
   generateBtn.addEventListener('click', () => {
     t2iGenerateBtn.click()
@@ -72,11 +88,14 @@ onUiLoaded(async function () {
   cancelBtn.addEventListener('click', () => {
     t2iSkipBtn.click()
   })
+  await initChatHistory()
   await getUserIp()
-  await getChatHistory()
-  await getImage()
+  setInterval(() => {
+    updateChatHistory()
+    getImage()
+    getMemberNumber()
+  }, 3000)
   window.getRoomInfo = getRoomInfo
-  window.getChatHistory = getChatHistory
   window.sendMessage = sendMessage
   window.getImage = getImage
 })
@@ -114,8 +133,13 @@ const sendMessage = async (message) => {
   const res = await fetch(BaseUrl + '/chat/send', {
     body: JSON.stringify(data),
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
   })
   const json = await res.json()
+  const sendMessageInput = gradioApp().querySelector('#send-message');
+  sendMessageInput.value = ''
   console.log('sendMessage', json);
 }
 const upLoadImage = async (url) => {
@@ -128,9 +152,12 @@ const upLoadImage = async (url) => {
   const res = await fetch(BaseUrl + '/image/upload', {
     body: JSON.stringify(data),
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
   })
   const json = await res.json()
-  console.log('sendMessage', json);
+  console.log('upLoadImage', json);
 }
 
 const getImage = async (url) => {
@@ -138,13 +165,112 @@ const getImage = async (url) => {
     room_id: window.roomId,
   }))
   const json = await res.json()
-  console.log('sendMessage', json);
+  console.log('getImage', json);
+}
+const getMemberNumber = async (url) => {
+  const res = await fetch(BaseUrl + '/member/number?' + new URLSearchParams({
+    room_id: window.roomId,
+  }))
+  const json = await res.json()
+  const { member_num } = json
+  if (member_num, window.memberNum) {
+
+  }
+  window.memberNum = member_num
+  console.log('getImage', json);
 }
 
-const getChatHistory = async () => {
+function getTimeShow(time_str) {
+  const now = new Date();
+  const date = new Date(time_str);
+  //计算时间间隔，单位为分钟
+  const inter = parseInt((now.getTime() - date.getTime()) / 1000 / 60);
+  console.log('inter', inter);
+  if (inter == 0) {
+    return "刚刚";
+  }
+  //多少分钟前
+  else if (inter < 60) {
+    return inter.toString() + "分钟前";
+  }
+  //多少小时前
+  else if (inter < 60 * 24) {
+    return parseInt(inter / 60).toString() + "小时前";
+  }
+  //本年度内，日期不同，取日期+时间  格式如  06-13 22:11
+  else if (now.getFullYear() == date.getFullYear()) {
+    return (date.getMonth() + 1).toString() + "-" +
+      date.getDate().toString() + " " +
+      date.getHours() + ":" +
+      date.getMinutes();
+  }
+  else {
+    return date.getFullYear().toString().substring(2, 3) + "-" +
+      (date.getMonth() + 1).toString() + "-" +
+      date.getDate().toString() + " " +
+      date.getHours() + ":" +
+      date.getMinutes();
+  }
+}
+
+const updateChatHistory = async () => {
   const res = await fetch(BaseUrl + '/chat/history?' + new URLSearchParams({
     room_id: window.roomId,
   }))
   const data = await res.json()
-  console.log('getChatHistory', data);
+  const { chat_history } = data
+  if (window.chatHistoryLength === chat_history.length) {
+    return
+  }
+  const chatRoomHistory = gradioApp().querySelector('.chat-room-history');
+  const messageExample = gradioApp().querySelector('#message-example');
+  chatRoomHistory.innerHTML = ''
+  // for (let i = 0; i < chat_history.length; i++) {
+
+  //   // messageTime.innerHTML = getTimeShow(chat_history[i].created_at)
+  // }
+  const i = chat_history.length - 1
+  const child = messageExample.cloneNode(true)
+  child.style.display = 'flex'
+  child.setAttribute('id', `message-item-${i}`)
+  await chatRoomHistory.appendChild(child)
+  const avatar = child.querySelector(`.avatar-box > img`);
+  avatar.src = AvatarMap[chat_history[i].user_id]
+  const messageName = child.querySelector(`.message-box > p > .name`);
+  const messageTime = child.querySelector(`.message-box > p > .time`);
+  const messageText = child.querySelector(`.message-box > .message-text`);
+  messageName.innerHTML = NameMap[chat_history[i].user_id]
+  messageText.innerHTML = chat_history[i].message
+  messageTime.innerHTML = chat_history[i].created_at
+  window.chatHistoryLength = chat_history.length
+
+}
+const initChatHistory = async () => {
+  const res = await fetch(BaseUrl + '/chat/history?' + new URLSearchParams({
+    room_id: window.roomId,
+  }))
+  const data = await res.json()
+  const { chat_history } = data
+  if (window.chatHistoryLength === chat_history.length) {
+    return
+  }
+  const chatRoomHistory = gradioApp().querySelector('.chat-room-history');
+  const messageExample = gradioApp().querySelector('#message-example');
+  chatRoomHistory.innerHTML = ''
+  for (let i = 0; i < chat_history.length; i++) {
+    const child = messageExample.cloneNode(true)
+    child.style.display = 'flex'
+    child.setAttribute('id', `message-item-${i}`)
+    await chatRoomHistory.appendChild(child)
+    const avatar = child.querySelector(`.avatar-box > img`);
+    avatar.src = AvatarMap[chat_history[i].user_id]
+    const messageName = child.querySelector(`.message-box > p > .name`);
+    const messageTime = child.querySelector(`.message-box > p > .time`);
+    const messageText = child.querySelector(`.message-box > .message-text`);
+    messageName.innerHTML = NameMap[chat_history[i].user_id]
+    messageText.innerHTML = chat_history[i].message
+    messageTime.innerHTML = chat_history[i].created_at
+  }
+  window.chatHistoryLength = chat_history.length
+
 }

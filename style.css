@@ -1203,6 +1203,7 @@ footer {
 }
 
 .chat-room-history {
+    min-height: 120px;
     max-height: calc(100vh - 450px);
     background: #242731;
     border: 1px solid rgba(240, 243, 246, 0.1);
@@ -1217,6 +1218,10 @@ footer {
 .chat-room-history .message-item {
     display: flex;
     margin-bottom: 30px;
+}
+
+.chat-room-history #message-example {
+    display: none;
 }
 
 .chat-room-history .message-item .avatar-box {
@@ -1288,9 +1293,9 @@ footer {
     content: " ";
     position: absolute;
     width: 110%;
-    height: 30px;
+    height: 40px;
     left: -2%;
-    top: -30px;
+    top: -50px;
     background: #242731;
 }
 
