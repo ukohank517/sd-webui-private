@@ -29,19 +29,22 @@ onUiUpdate(async function () {
     const progress = gradioApp().querySelector('#txt2img_results > .progressDiv > .progress');
     const image = gradioApp().querySelector('#txt2img_gallery > .grid-wrap > .grid-container > button > img');
     const showImage = gradioApp().querySelector('#showImage');
-    if (image) {
-      if (image.src !== window.lastImgSrc) {
-        console.log('image.src', image.src);
-        showImage.src = image.src
-        window.lastImgSrc = image.src
-        const res = await upLoadImage(image.src)
-        console.log('res', res);
-      }
-    }
     const progressContainer = gradioApp().querySelector('.progress-container');
     const showProgress = gradioApp().querySelector('.active-line-number > input');
     const activeLineValue = gradioApp().querySelector('.active-line-number');
     const activeLine = gradioApp().querySelector('.active-line');
+    if (image) {
+      if (image.src !== window.lastImgSrc) {
+        showImage.src = image.src
+        window.lastImgSrc = image.src
+        const res = await upLoadImage(image.src)
+        progressContainer.style.display = 'none'
+        showProgress.value = '0%'
+        activeLine.style.width = '0%'
+        activeLineValue.style.left = '0%'
+        return
+      }
+    }
     if (progress && progress.style && progress.style.width) {
       progressContainer.style.display = 'flex'
       showProgress.value = progress.style.width
@@ -174,7 +177,6 @@ const sendMessage = async (message) => {
       domWrapper.scrollTo(0, currentScroll + (scrollHeight - currentScroll - clientHeight) / 2);
     }
   })();
-  console.log('sendMessage', json);
 }
 const upLoadImage = async (url) => {
   const promptText = gradioApp().querySelector('#prompt-text');
@@ -191,7 +193,6 @@ const upLoadImage = async (url) => {
     },
   })
   const json = await res.json()
-  console.log('upLoadImage', json);
 }
 
 const updateImageInfo = async () => {
@@ -204,7 +205,9 @@ const updateImageInfo = async () => {
     const promptText = gradioApp().querySelector('#prompt-text');
     promptText.value = prompt
     const showImage = gradioApp().querySelector('#showImage');
-    showImage.src = image_url
+    if (image_url) {
+      showImage.src = image_url
+    }
   }
 }
 const initImage = async () => {
@@ -216,7 +219,9 @@ const initImage = async () => {
   const promptText = gradioApp().querySelector('#prompt-text');
   promptText.value = prompt
   const showImage = gradioApp().querySelector('#showImage');
-  showImage.src = image_url
+  if (image_url) {
+    showImage.src = image_url
+  }
 }
 const getMemberNumber = async (url) => {
   try {
@@ -249,7 +254,6 @@ function getTimeShow(time_str) {
   const date = new Date(time_str);
   //计算时间间隔，单位为分钟
   const inter = parseInt((now.getTime() - date.getTime()) / 1000 / 60);
-  console.log('inter', inter);
   if (inter == 0) {
     return "刚刚";
   }
