@@ -5,20 +5,22 @@ const NameMap = {
   3: '用户3',
   4: '用户4',
   5: '用户5',
+  6: '用户6',
 }
 const AvatarMap = {
-  0: "./file=html/img.png",
-  1: "./file=html/img.png",
-  2: "./file=html/img.png",
-  3: "./file=html/img.png",
-  4: "./file=html/img.png",
-  5: "./file=html/img.png",
+  0: "./file=html/avatar0.svg",
+  1: "./file=html/avatar1.svg",
+  2: "./file=html/avatar2.svg",
+  3: "./file=html/avatar3.svg",
+  4: "./file=html/avatar4.svg",
+  5: "./file=html/avatar5.svg",
+  6: "./file=html/avatar6.svg",
 }
 
 
 // 页面更新时控制其他数据的显示
 const BaseUrl = 'http://v118-27-14-73.9ob0.static.cnode.io'
-window.roomId = 'window.roomId'
+window.roomId = '9999'
 window.lastImgSrc = ''
 window.chatHistoryLength = 0
 onUiUpdate(async function () {
@@ -57,7 +59,6 @@ onUiUpdate(async function () {
 
 onUiLoaded(async function () {
   const userIp = gradioApp().querySelector('#user-ip');
-  userIp.innerHTML = window.ip || ''
   const promptText = gradioApp().querySelector('#prompt-text');
   const generateBtn = gradioApp().querySelector('#generate-btn');
   const sendBtn = gradioApp().querySelector('#send-message-button');
@@ -83,10 +84,14 @@ onUiLoaded(async function () {
   sendBtn.addEventListener('click', async () => {
     const sendMessageInput = gradioApp().querySelector('#send-message');
     const res = await sendMessage(sendMessageInput.value)
-    updateChatHistory()
+    initChatHistory()
   })
   generateBtn.addEventListener('click', () => {
-    t2iGenerateBtn.click()
+    if (window.userId === 0) {
+      t2iGenerateBtn.click()
+    } else {
+      alert('Only the roomowner supports this operation')
+    }
   })
   if (!cancelBtn || !t2iSkipBtn) {
     return
@@ -94,16 +99,17 @@ onUiLoaded(async function () {
   cancelBtn.addEventListener('click', () => {
     t2iSkipBtn.click()
   })
-  await initChatHistory()
   await getUserIp()
+  userIp.innerHTML = window.ip || ''
+  await getRoomInfo()
+  await getMemberNumber()
+  await initChatHistory()
+  initImage()
   setInterval(() => {
-    updateChatHistory()
-    getImage()
+    initChatHistory()
+    updateImageInfo()
     getMemberNumber()
   }, 3000)
-  window.getRoomInfo = getRoomInfo
-  window.sendMessage = sendMessage
-  window.getImage = getImage
 })
 
 
@@ -116,11 +122,21 @@ const getUserIp = async () => {
 
 const getRoomInfo = async () => {
   const res = await fetch(BaseUrl + '/room/info?' + new URLSearchParams({
-    room_id: 'window.roomId',
+    room_id: window.roomId,
     ip_address: window.ip
   }))
   const data = await res.json()
-  console.log('data', data);
+  const { user_id } = data
+  window.userId = user_id
+  const promptText = gradioApp().querySelector('#prompt-text');
+  const generateBtn = gradioApp().querySelector('#generate-btn');
+  if (user_id !== 0) {
+    promptText.disabled = true
+    generateBtn.disabled = true
+  } else {
+    promptText.disabled = false
+    generateBtn.disabled = false
+  }
 }
 
 const createRoom = async () => {
@@ -133,7 +149,7 @@ const createRoom = async () => {
 const sendMessage = async (message) => {
   const data = {
     room_id: window.roomId,
-    user_id: 0,
+    user_id: window.userId,
     message,
   }
   const res = await fetch(BaseUrl + '/chat/send', {
@@ -146,6 +162,17 @@ const sendMessage = async (message) => {
   const json = await res.json()
   const sendMessageInput = gradioApp().querySelector('#send-message');
   sendMessageInput.value = ''
+  // 滑动到底部
+  const domWrapper = gradioApp().querySelector('.chat-room-history');
+  (function smoothscroll() {
+    const currentScroll = domWrapper.scrollTop;   // 已经被卷掉的高度
+    const clientHeight = domWrapper.offsetHeight; // 容器高度
+    const scrollHeight = domWrapper.scrollHeight; // 内容总高度
+    if (scrollHeight - 10 > currentScroll + clientHeight) {
+      window.requestAnimationFrame(smoothscroll);
+      domWrapper.scrollTo(0, currentScroll + (scrollHeight - currentScroll - clientHeight) / 2);
+    }
+  })();
   console.log('sendMessage', json);
 }
 const upLoadImage = async (url) => {
@@ -166,24 +193,54 @@ const upLoadImage = async (url) => {
   console.log('upLoadImage', json);
 }
 
-const getImage = async (url) => {
+const updateImageInfo = async () => {
   const res = await fetch(BaseUrl + '/image/get?' + new URLSearchParams({
     room_id: window.roomId,
   }))
   const json = await res.json()
-  console.log('getImage', json);
+  const { image_url, prompt, room_id } = json
+  if (window.userId !== 0) {
+    const promptText = gradioApp().querySelector('#prompt-text');
+    promptText.value = prompt
+    const showImage = gradioApp().querySelector('#showImage');
+    showImage.src = image_url
+  }
 }
-const getMemberNumber = async (url) => {
-  const res = await fetch(BaseUrl + '/member/number?' + new URLSearchParams({
+const initImage = async () => {
+  const res = await fetch(BaseUrl + '/image/get?' + new URLSearchParams({
     room_id: window.roomId,
   }))
   const json = await res.json()
-  const { member_num } = json
-  if (member_num, window.memberNum) {
-
+  const { image_url, prompt, room_id } = json
+  const promptText = gradioApp().querySelector('#prompt-text');
+  promptText.value = prompt
+  const showImage = gradioApp().querySelector('#showImage');
+  showImage.src = image_url
+}
+const getMemberNumber = async (url) => {
+  try {
+    const res = await fetch(BaseUrl + '/member/number?' + new URLSearchParams({
+      room_id: window.roomId,
+    }))
+    const json = await res.json()
+    const { member_num } = json
+    if (member_num === window.memberNum) {
+      return
+    }
+    if (!member_num) {
+      return
+    }
+    const userIn = gradioApp().querySelector('.user-in');
+    userIn.innerHTML = ''
+    for (let i = 0; i < member_num; i++) {
+      const image = document.createElement('img')
+      image.src = AvatarMap[i]
+      userIn.appendChild(image)
+    }
+    window.memberNum = member_num
+  } catch (error) {
+    console.log('getMemberNumber', error);
   }
-  window.memberNum = member_num
-  console.log('getImage', json);
 }
 
 function getTimeShow(time_str) {
@@ -231,10 +288,6 @@ const updateChatHistory = async () => {
   const chatRoomHistory = gradioApp().querySelector('.chat-room-history');
   const messageExample = gradioApp().querySelector('#message-example');
   chatRoomHistory.innerHTML = ''
-  // for (let i = 0; i < chat_history.length; i++) {
-
-  //   // messageTime.innerHTML = getTimeShow(chat_history[i].created_at)
-  // }
   const i = chat_history.length - 1
   const child = messageExample.cloneNode(true)
   child.style.display = 'flex'
@@ -263,7 +316,7 @@ const initChatHistory = async () => {
   const chatRoomHistory = gradioApp().querySelector('.chat-room-history');
   const messageExample = gradioApp().querySelector('#message-example');
   chatRoomHistory.innerHTML = ''
-  for (let i = 0; i < chat_history.length; i++) {
+  for (let i = (chat_history.length - 1); i >= 0; i--) {
     const child = messageExample.cloneNode(true)
     child.style.display = 'flex'
     child.setAttribute('id', `message-item-${i}`)
@@ -278,5 +331,15 @@ const initChatHistory = async () => {
     messageTime.innerHTML = chat_history[i].created_at
   }
   window.chatHistoryLength = chat_history.length
-
+  // 滑动到底部
+  const domWrapper = gradioApp().querySelector('.chat-room-history');
+  (function smoothscroll() {
+    const currentScroll = domWrapper.scrollTop;   // 已经被卷掉的高度
+    const clientHeight = domWrapper.offsetHeight; // 容器高度
+    const scrollHeight = domWrapper.scrollHeight; // 内容总高度
+    if (scrollHeight - 10 > currentScroll + clientHeight) {
+      window.requestAnimationFrame(smoothscroll);
+      domWrapper.scrollTo(0, currentScroll + (scrollHeight - currentScroll - clientHeight) / 2);
+    }
+  })();
 }
