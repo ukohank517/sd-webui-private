@@ -947,10 +947,9 @@ footer {
 }
 
 .aigc-wrap .aigc-container .left-box {
-    width: 40vw;
+    width: 700px;
     margin-right: 20px;
     overflow-y: auto;
-    max-height: calc(100vh - 80px);
 }
 
 .aigc-wrap .aigc-container .left-box .wrap-img-container {
@@ -1192,19 +1191,22 @@ footer {
 
 
 .aigc-wrap .aigc-container .right-box {
-    width: 60vw;
-    height: 100%;
+    width: calc(1440px - 700px);
+    /* height: 100%; */
     background: #242731;
     border: 1px solid rgba(240, 243, 246, 0.1);
     border-radius: 32px;
     min-height: 500px;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .chat-room-history {
-    min-height: 120px;
-    max-height: calc(100vh - 500px);
+    /* min-height: 120px;
+    max-height: calc(100vh - 500px); */
+    flex-grow: 1;
     background: #242731;
     border: 1px solid rgba(240, 243, 246, 0.1);
     border-radius: 32px;
@@ -1212,6 +1214,7 @@ footer {
     overflow-y: auto;
     border-bottom: none;
     position: relative;
+    height: 0;
 }
 
 
@@ -1437,8 +1440,72 @@ footer {
     margin-bottom: unset !important;
 }
 
-.box-100vh {
+/* .box-100vh {
     width: 100%;
     max-height: 100vh;
     overflow: hidden;
+} */
+
+::-webkit-scrollbar {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 8px;
+}
+
+#refresh_sd_model_checkpoint {
+    display: none;
+}
+
+#setting_sd_model_checkpoint>label>span {
+    color: #fff;
+    font-size: 20px;
+}
+
+#setting_sd_model_checkpoint>label .wrap {
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+#setting_sd_model_checkpoint>label .wrap .wrap-inner {
+    background: #323232;
+    padding: 10px;
+    border-radius: 4px;
+    /* font-size: 20px; */
+}
+
+/* #setting_sd_model_checkpoint>label .wrap .wrap-inner .secondary-wrap {
+    visibility: hidden;
+} */
+
+#setting_sd_model_checkpoint>label .wrap .options {
+    background: #323232;
+}
+
+#setting_sd_model_checkpoint>label .wrap .options li {
+    padding: 10px;
+    background: #323232;
+    color: #fff;
+    border-radius: 4px;
+}
+
+#setting_sd_model_checkpoint>label .wrap .options li:hover {
+    background: #323232;
+    color: #fff;
+}
+
+#setting_sd_model_checkpoint>label .wrap .options .selected {
+    background: #323232;
+}
+
+#setting_sd_model_checkpoint>label .wrap .wrap-inner span {
+    color: #fff;
+}
+
+#setting_sd_model_checkpoint>label .wrap .eta-bar {
+    background: #323232;
+    color: #fff;
 }
