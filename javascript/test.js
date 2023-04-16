@@ -70,6 +70,12 @@ onUiLoaded(async function () {
   promptText.addEventListener('input', (e) => {
     const txt2imgprompt = gradioApp().querySelector('#txt2img_prompt > label > textarea')
     txt2imgprompt.value = e.target.value
+
+    const inputEvent = new Event('input', {
+      bubbles: true,
+      cancelable: true,
+    });
+    txt2imgprompt.dispatchEvent(inputEvent);
   })
   if (!generateBtn || !t2iGenerateBtn) {
     return
