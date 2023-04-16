@@ -167,6 +167,7 @@ const sendMessage = async () => {
     alert('message empty')
     return
   }
+  sendMessageInput.value = ''
   try {
     const data = {
       room_id: window.roomId,
@@ -325,6 +326,9 @@ const initChatHistory = async () => {
     }))
     const data = await res.json()
     const { chat_history } = data
+    if (!chat_history.length) {
+      return
+    }
     if (window.chatHistoryLength === chat_history.length) {
       return
     }
