@@ -28,7 +28,7 @@ def txt2img(id_task: str, prompt: str, negative_prompt: str, prompt_styles, step
         sampler_name=sd_samplers.samplers[sampler_index].name,
         batch_size=batch_size,
         n_iter=n_iter,
-        steps=20, # TODO
+        steps=15, # TODO
         cfg_scale=cfg_scale,
         width=500, # TODO
         height=500, # TODO
