@@ -1509,3 +1509,14 @@ footer {
     background: #323232;
     color: #fff;
 } */
+#setting_sd_model_checkpoint .default {
+    position: absolute;
+    padding: 0px;
+    height: 50px;
+    top: 40px;
+    background: #383a43;
+}
+
+#setting_sd_model_checkpoint .wrap .meta-text {
+    display: none;
+}
