@@ -126,7 +126,7 @@ onUiLoaded(async function () {
   const setEnDom = gradioApp().querySelector('#set-en');
   const setJpDom = gradioApp().querySelector('#set-jp');
   const setZhDom = gradioApp().querySelector('#set-zh');
-  const langStore = localStorage.getItem('lang')
+  const langStore = localStorage.getItem('lang') || 'en'
   changeLang(langStore)
   // const chatRoomHistory = gradioApp().querySelector('.chat-room-history');
   // const leftBox = gradioApp().querySelector('.left-box');
