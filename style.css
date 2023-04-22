@@ -1364,11 +1364,13 @@ footer {
     border: none;
     resize: none;
     width: 100%;
-    padding: 8px 4px;
-    color: #808191;
+    padding: 10px;
+    color: #fff;
     margin-top: 10px;
     background: #323232;
     border-radius: 4px;
+    font-size: 18px;
+    box-sizing: border-box;
 }
 
 .send-message-box .send-message-header span {
