@@ -387,7 +387,7 @@ const getMemberNumber = async (url) => {
 }
 
 const getUserName = (id) => {
-  const lang = localStorage.getItem('lang')
+  const lang = localStorage.getItem('lang') || 'en'
   if (id === 0) {
     return TextMap[lang].ower
   }
